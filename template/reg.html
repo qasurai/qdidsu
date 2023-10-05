@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QAIDSRM</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h3>青岛中学国际部学生代表大会</h1>
+            <h4>Qingdao Academy International Department Student Representative Meeting.</h1>
+            <hr style="border-color: black;">
+        </div>
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Error</strong>:{{ message }}
+                    </div>
+                    {% endif %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Warning</strong>:{{ message }}
+                    </div>
+                    {% endif %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success</strong>:{{ message }}
+                    </div>
+                    {% endif %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Info</strong>:{{ message }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            <h3>报名注册</h3>
+            <form action="" method="post">
+                {%csrf_token%}
+                <div class="form-group">
+                    <label>姓名(Name)<span style="color: red;">*</span>:</label>
+                    <input type="text" name="name">
+                </div>
+                <div class="form-group">
+                    <label>学号(StudentNumber)<span style="color: red;">*</span>:</label>
+                    <input type="number" name="studentnumber">
+                </div>
+                <div class="form-group">
+                    <label>学院(College)<span style="color: red;">*</span>:</label>
+                    <select class="form-control" name="college">
+                        <option>Lyceum</option>
+                        <option>Parnassus</option>
+                        <option>Virtus</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>年级(Grade)<span style="color: red;">*</span>:</label>
+                    <select class="form-control" name="grade">
+                        <option>G9</option>
+                        <option>G10</option>
+                        <option>G11</option>
+                        <option>G12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>导师(Mentor)<span style="color: red;">*</span></label>
+                    <select class="form-control" name="mentor">
+                        <option>郭俊卿</option>
+                        <option>赵胡梦鹤</option>
+                        <option>刘芳雨</option>
+                        <option>王倩宇</option>
+                        <option>赵航</option>
+                        <option>高行健</option>
+                        <option>王思洋</option>
+                        <option>朱宝杰</option>
+                        <option>周芳颖</option>
+                        <option>孙莹莹</option>
+                        <option>赵昊一</option>
+                        <option>李帅</option>
+                        <option>兰文稚</option>
+                        <option>王思洋</option>
+                        <option>王一童</option>
+                        <option>李肖阳</option>
+                        <option>于晓冬</option>
+                        <option>苏盼文</option>
+                        <option>王菁</option>
+                        <option>李妍</option>
+                        <option>邢文娟</option>
+                        <option>王乃伟</option>
+                        <option>徐颖雪</option>
+                        <option>于江</option>
+                        <option>林帅</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>提案简述(Content)[必须填写并通过此项来审查学生代表资格]<span style="color: red;">*</span>:</label><br>
+                    <textarea name="content" style="width: 100%;height: 300px;"></textarea>
+                </div>
+                <button style="margin-bottom: 15px;" type="submit" class="btn btn-success">报名注册</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
