@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QAIDSC</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <style>
+        table{
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+        td{
+            width: 90%;
+        }
+        .uptwo td{
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h3>青岛中学国际部学生代表大会</h1>
+            <h4>Qingdao Academy International Department Student Congress.</h1>
+            <hr style="border-color: black;">
+        </div>
+        <div>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Error</strong>:{{ message }}
+                    </div>
+                    {% endif %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Warning</strong>:{{ message }}
+                    </div>
+                    {% endif %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success</strong>:{{ message }}
+                    </div>
+                    {% endif %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Info</strong>:{{ message }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <h2>{{obj.title}} {% if obj.uid is None %}
+            {%else%}
+            <span style="color: gray;">({{ obj.uid }})</span>
+            {% endif %}</h2>
+            <button style="margin-bottom: 10px;" onclick="window.location.href='/logout/'" type="button" class="btn btn-danger">退出登录</button>
+            <button style="margin-bottom: 10px;" onclick="window.location.href='/list/'" type="button" class="btn btn-warning">回到主页</button>
+        <button style="margin-bottom: 10px;" onclick="window.location.href='/edit/{{ obj.id }}/'" type="button" class="btn btn-warning">修改</button>
+        <button style="margin-bottom: 10px;" onclick="window.location.href='/del/{{ obj.id }}/'" type="button" class="btn btn-default">删除</button>
+        <div>
+            <div>
+                <table style="width: 50%;float: left;" class="table table-bordered uptwo">
+                    <tbody>
+                        <tr>
+                            <th>提案人</th>
+                            <td>{{ obj.forrep }}</td>
+                        </tr>
+                        <tr>
+                            <th>附议人1</th>
+                            {% if obj.forrep_1 is None %}
+                            <td>无</td>
+                            {% else %}
+                            <td>{{ obj.forrep_1 }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>附议人2</th>
+                            {% if obj.forrep_2 is None %}
+                            <td>无</td>
+                            {% else %}
+                            <td>{{ obj.forrep_2 }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>附议人3</th>
+                            {% if obj.forrep_3 is None %}
+                            <td>无</td>
+                            {% else %}
+                            <td>{{ obj.forrep_3 }}</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="width: 48%;float: right;" class="table table-bordered uptwo">
+                    <tbody>
+                        <tr>
+                            <th>最后一次修改</th>
+                            <td>{{ obj.last_change_data }}</td>
+                        </tr>
+                        <tr>
+                            <th>创建时间</th>
+                            <td>{{ obj.create_data }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>提案缘由</th>
+                        <td>{{ obj.reason }}</td>
+                    </tr>
+                    <tr>
+                        <th>解决方案</th>
+                        <td>{{ obj.solvetion }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>初审结果</th>
+                        {% if obj.init_views is None %}
+                        <td><span style="color: gray;" class="glyphicon  glyphicon-question-sign" aria-hidden="true"></span></td>
+                        {% elif obj.init_views %}
+                        <td><span style="color: green;" class="glyphicon  glyphicon-ok" aria-hidden="true"></span></td>
+                        {% else %}
+                        <td><span style="color: red;" class="glyphicon  glyphicon-remove" aria-hidden="true"></span></td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th>初审意见</th>
+                        <td>{{ obj.init_opinion }}</td>
+                    </tr>
+                    <tr>
+                        <th>投票结果</th>
+                        {% if obj.init_views is None %}
+                        <td><span style="color: gray;" class="glyphicon  glyphicon-question-sign" aria-hidden="true"></span></td>
+                        {% elif obj.init_views %}
+                        <td><span style="color: green;" class="glyphicon  glyphicon-ok" aria-hidden="true"></span></td>
+                        {% else %}
+                        <td><span style="color: red;" class="glyphicon  glyphicon-remove" aria-hidden="true"></span></td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

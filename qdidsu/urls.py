@@ -20,6 +20,14 @@ from collect import views as c_v
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('reg/', c_v.reg),
-    path('getcsv/', c_v.getcsv),
+    path('list/', c_v.getlist),
+    path('login/', c_v.login),
+    path('logout/', c_v.logout),
+    path('view/<int:uid>/', c_v.viewp),
+    path('delgl/<int:uid>/', c_v.delgl),
+    path('del/<int:uid>/', c_v.delp),
+    path('edit/<int:uid>/', c_v.edit),
+    path('add/', c_v.add),
+    # path('getcsv/', c_v.getcsv),
     path('', c_v.index),
 ]

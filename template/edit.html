@@ -7,6 +7,8 @@
     <title>QAIDSC</title>
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/pandao/editor.md@1.5.0/editormd.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -45,70 +47,42 @@
                 {% endfor %}
             {% endif %}
         </div>
+        <button style="margin-bottom: 10px;" onclick="window.location.href='/logout/'" type="button" class="btn btn-danger">退出登录</button>
+        <button style="margin-bottom: 10px;" onclick="window.location.href='/list/'" type="button" class="btn btn-warning">回到主页</button>
         <div>
-            <h3>报名注册</h3>
+            <h3>提案更改</h3>
             <form action="" method="post">
                 {%csrf_token%}
                 <div class="form-group">
-                    <label>姓名(Name)<span style="color: red;">*</span>:</label>
-                    <input type="text" name="name">
+                    <label>提案名称<span style="color: red;">*</span>:</label>
+                    <input type="text" name="title" value="{{obj.title}}">
                 </div>
                 <div class="form-group">
-                    <label>学号(StudentNumber)<span style="color: red;">*</span>:</label>
-                    <input type="number" name="studentnumber">
+                    <label>附议人1[选填]:</label>
+                    <input type="number" name="forrep_1" value="{{obj.forrep_1}}">
                 </div>
                 <div class="form-group">
-                    <label>学院(College)<span style="color: red;">*</span>:</label>
-                    <select class="form-control" name="college">
-                        <option>Lyceum</option>
-                        <option>Parnassus</option>
-                        <option>Virtus</option>
-                    </select>
+                    <label>附议人2[选填]:</label>
+                    <input type="number" name="forrep_2" value="{{obj.forrep_2}}">
                 </div>
                 <div class="form-group">
-                    <label>年级(Grade)<span style="color: red;">*</span>:</label>
-                    <select class="form-control" name="grade">
-                        <option>G9</option>
-                        <option>G10</option>
-                        <option>G11</option>
-                        <option>G12</option>
-                    </select>
+                    <label>附议人3[选填]:</label>
+                    <input type="number" name="forrep_3" value="{{obj.forrep_3}}">
+                </div>
+                <p>*附议人选填,如果需要附议人请填入他/她的学号。</p>
+                <div class="form-group">
+                    <label>提案缘由<span style="color: red;">*</span>:</label>
+                    <div id="reason_text" style="width: 100%;">
+                        <textarea style="width: 100%;height: 150px;" name="reason" type="text" class="form-control">{{obj.reason}}</textarea>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>导师(Mentor)<span style="color: red;">*</span></label>
-                    <select class="form-control" name="mentor">
-                        <option>郭俊卿</option>
-                        <option>赵胡梦鹤</option>
-                        <option>刘芳雨</option>
-                        <option>王倩宇</option>
-                        <option>赵航</option>
-                        <option>高行健</option>
-                        <option>王思洋</option>
-                        <option>朱宝杰</option>
-                        <option>周芳颖</option>
-                        <option>孙莹莹</option>
-                        <option>赵昊一</option>
-                        <option>李帅</option>
-                        <option>兰文稚</option>
-                        <option>王思洋</option>
-                        <option>王一童</option>
-                        <option>李肖阳</option>
-                        <option>于晓冬</option>
-                        <option>苏盼文</option>
-                        <option>王菁</option>
-                        <option>李妍</option>
-                        <option>邢文娟</option>
-                        <option>王乃伟</option>
-                        <option>徐颖雪</option>
-                        <option>于江</option>
-                        <option>林帅</option>
-                    </select>
+                    <label>解决方案<span style="color: red;">*</span>:</label>
+                    <div id="solvetion_text" style="width: 100%;">
+                        <textarea style="width: 100%;height: 150px;" name="solvetion" type="text" class="form-control">{{obj.solvetion}}</textarea>
+                    </div>
                 </div>
-                <!-- <div class="form-group">
-                    <label>提案简述(Content)[必须填写并通过此项来审查学生代表资格]<span style="color: red;">*</span>:</label><br>
-                    <textarea name="content" style="width: 100%;height: 300px;"></textarea>
-                </div> -->
-                <button style="margin-bottom: 15px;" type="submit" class="btn btn-success">报名注册</button>
+                <button style="margin-bottom: 15px;" type="submit" class="btn btn-success">提交</button>
             </form>
         </div>
     </div>

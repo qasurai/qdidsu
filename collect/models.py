@@ -47,9 +47,28 @@ class Representative(models.Model):
     grade=models.CharField(max_length=2,choices=grade_u)
     mentor=models.CharField(max_length=1,choices=mentor_u)
     studentnumber=models.IntegerField(unique=True)
-    content=models.TextField(default="")
+    content=models.TextField(default="",null=True,blank=True)
     create_data=models.DateTimeField(auto_now_add=True)
     last_change_data=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
     def __str__(self):
         return self.name
+
+class Proposal(models.Model):
+    id=models.AutoField(primary_key=True)
+    uid=models.CharField(max_length=50,unique=True,null=True,blank=True)
+    init_views=models.BooleanField(null=True)
+    init_opinion=models.TextField(default="",null=True,blank=True)
+    forrep=models.ForeignKey('Representative',on_delete=models.CASCADE,related_name='forrep')
+    forrep_1=models.ForeignKey('Representative',on_delete=models.CASCADE,null=True,blank=True,related_name='forrep_1')
+    forrep_2=models.ForeignKey('Representative',on_delete=models.CASCADE,null=True,blank=True,related_name='forrep_2')
+    forrep_3=models.ForeignKey('Representative',on_delete=models.CASCADE,null=True,blank=True,related_name='forrep_3')
+    title=models.CharField(max_length=50)
+    reason=models.TextField(default="",null=True,blank=True)
+    solvetion=models.TextField(default="",null=True,blank=True)
+    result=models.BooleanField(null=True)
+    create_data=models.DateTimeField(auto_now_add=True)
+    last_change_data=models.DateTimeField(auto_now=True)
+    is_active=models.BooleanField(default=True)
+    def __str__(self):
+        return self.title
