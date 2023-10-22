@@ -14,8 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,re_path
 from collect import views as c_v
+from .settings import STATIC_ROOT
+from django.views import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +30,6 @@ urlpatterns = [
     path('del/<int:uid>/', c_v.delp),
     path('edit/<int:uid>/', c_v.edit),
     path('add/', c_v.add),
-    # path('getcsv/', c_v.getcsv),
     path('', c_v.index),
+    re_path('^static/(?P<path>.*)$', static.serve, {'document_root': STATIC_ROOT}),
 ]

@@ -2,7 +2,6 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from .models import *
-import csv,time,codecs
 
 # Create your views here.
 
@@ -53,6 +52,7 @@ def index(request):
     return render(request,"index.html")
 
 def reg(request):
+    obj=None
     if request.method=="GET":
         return render(request,"reg.html")
     else:
@@ -61,7 +61,7 @@ def reg(request):
             college=request.POST.get("college")
             grade=request.POST.get("grade")
             mentor=request.POST.get("mentor")
-            print(college)
+            is_active=True if request.POST.get("is_active")=="是" else False
             studentnumber=int(request.POST.get("studentnumber"))
             if len(name)>20:
                 messages.add_message(request, messages.ERROR,'姓名不超过20个字符')
@@ -78,17 +78,20 @@ def reg(request):
             if not (10000000<studentnumber and studentnumber<=99999999):
                 messages.add_message(request, messages.ERROR,'学号不合法')
                 return render(request,"reg.html")
-            Representative.objects.create(
+            obj=Representative.objects.create(
                 name=name,
                 college=getrealname(college_u,college),
                 grade=getrealname(grade_u,grade),
                 mentor=getrealname(mentor_u,mentor),
-                studentnumber=studentnumber,
-            ).save()
+                studentnumber=studentnumber,is_active=is_active,
+            )
+            obj.save()
         except Exception as e:
             messages.add_message(request, messages.ERROR,e)
             return render(request,"reg.html")
         messages.add_message(request, messages.SUCCESS,"注册成功")
+        request.session["iflog"]='on'
+        request.session["rid"]=obj.id
         return redirect('/list/')
         # return render(request,"reg.html")
     
@@ -248,16 +251,3 @@ def edit(request,uid):
             return redirect("/list/")
     else:
         return redirect('/login/')
-
-def getcsv(request):
-    stu_lis = Representative.objects.all()
-    response = HttpResponse(content_type='text/csv', charset='UTF-8')
-    time_now = time.strftime('%Y%m%d')
-    filename = 'QAIDSRM_' + time_now
-    response['Content-Disposition'] = f'attachment; filename="{filename}.csv"'
-    response.write(codecs.BOM_UTF8)
-    writer = csv.writer(response)
-    writer.writerow(['Id','name','college','grade','mentor','studentnumber','content'])
-    for stu in stu_lis:
-        writer.writerow([stu.id,stu.name,stu.college,stu.grade,stu.mentor,stu.studentnumber,stu.content])
-    return response
