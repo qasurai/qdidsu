@@ -24,11 +24,26 @@ class RepresentativeAdmin(admin.ModelAdmin):
 		return response
 admin.site.register(Representative,RepresentativeAdmin)
 
+template_proposal='''### {} {}
+
+> 提案人: {}
+>
+> 附议人: {} {} {}
+
+#### 提案缘由
+{}
+#### 解决发难
+{}
+#### 初审意见
+> {}
+
+'''
+
 class ProposalAdmin(admin.ModelAdmin):
-	list_display = ['id','init_views','init_opinion','forrep','title','result','forrep_1','forrep_2','forrep_3','create_data','last_change_data','is_active']
+	list_display = ['id','init_views','init_opinion','forrep','title','result','create_data','last_change_data']
 	list_filter = ['init_views','result']
-	actions = ['export']
-	def export(self,request,queryset):
+	actions = ['ExportToCsv','ExportToMarkDown']
+	def ExportToCsv(self,request,queryset):
 		stu_lis = queryset
 		response = HttpResponse(content_type='text/csv', charset='UTF-8')
 		time_now = time.strftime('%Y%m%d_%H_%M_%S')
@@ -40,7 +55,25 @@ class ProposalAdmin(admin.ModelAdmin):
 		for stu in stu_lis:
 			writer.writerow([stu.id,stu.uid,stu.init_views,stu.init_opinion,stu.forrep,stu.forrep_1,stu.forrep_2,stu.forrep_3,stu.title,stu.reason,stu.solvetion,stu.result,stu.create_data,stu.last_change_data])
 		return response
+	def ExportToMarkDown(self,request,queryset):
+		stu_lis = queryset
+		response = HttpResponse(content_type='text/plain', charset='UTF-8')
+		time_now = time.strftime('%Y%m%d_%H_%M_%S')
+		filename = 'Proposal_' + time_now
+		response['Content-Disposition'] = f'attachment; filename="{filename}.md"'
+		response.write(codecs.BOM_UTF8)
+		writer = csv.writer(response)
+		for stu in stu_lis:
+			if stu.init_views:
+				writer.writerows(template_proposal.format(
+					stu.uid,stu.title,stu.forrep,stu.forrep_1,stu.forrep_2,stu.forrep_3,stu.reason,stu.solvetion,stu.init_opinion
+				).strip("\n"))
+		return response
 admin.site.register(Proposal,ProposalAdmin)
+
+class NewsAdmin(admin.ModelAdmin):
+	list_display = ['id','title','content','create_data']
+admin.site.register(News,NewsAdmin)
 
 class LogEntryAdmin(admin.ModelAdmin):
 	list_display = ['action_time','user','content_type','object_id','object_repr','action_flag','change_message']

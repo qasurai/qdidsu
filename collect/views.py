@@ -49,7 +49,8 @@ def getrealname(u,c):
             return i[0]
 
 def index(request):
-    return render(request,"index.html")
+    obj=News.objects.all()
+    return render(request,"index.html",{"obj":obj})
 
 def reg(request):
     obj=None

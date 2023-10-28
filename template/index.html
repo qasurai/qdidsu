@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -35,9 +35,18 @@
             </p>
             <hr style="border-color: black;">
         </div>
-        <a href="/reg/" style="margin-bottom: 15px;" class="btn btn-success" role="button">代表报名</a>
-        <a href="/list/" style="margin-bottom: 15px;" class="btn btn-success" role="button">提案提交</a>
-        <!-- <a href="/del/" style="margin-bottom: 15px;" class="btn btn-warning" role="button">取消报名</a> -->
+        <a href="/reg/" style="margin-bottom: 15px;" class="btn btn-success btn-lg" role="button">代表报名</a>
+        <a href="/list/" style="margin-bottom: 15px;" class="btn btn-success btn-lg" role="button">提案提交</a>
+        <hr style="border-color: black;">
+        <h3>最新消息</h3>
+        {%for i in obj%}
+        <div class="media">
+            <div class="media-body">
+             <h4 class="media-heading">{{i.create_data|date:'Y-m-d H:i' }} - <strong>{{i.title}}</strong></h4>
+              {{i.content}}
+            </div>
+        </div>
+        {%endfor%}
     </div>
 </body>
 </html>

@@ -72,3 +72,15 @@ class Proposal(models.Model):
     is_active=models.BooleanField(default=True)
     def __str__(self):
         return self.title
+    
+class News(models.Model):
+    id=models.AutoField(primary_key=True)
+    title=models.CharField(max_length=50,unique=True)
+    content=models.TextField(default="",null=True,blank=True)
+    create_data=models.DateTimeField()
+    class Meta:
+        ordering = ['-create_data']
+        verbose_name='News'
+        verbose_name_plural=verbose_name
+    def __str__(self):
+        return self.title
